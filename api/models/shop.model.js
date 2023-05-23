@@ -13,8 +13,9 @@ const shopSchema = new Schema({
     type: String,
     required: true,
   },
-  //populate of product goes here
 },{timestamps: true})
+
+//virtual populate of product would go here
 
 const Shop = mongoose.model('shop', shopSchema);
 module.exports = Shop;
