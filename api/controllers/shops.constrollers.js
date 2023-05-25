@@ -7,24 +7,28 @@ module.exports.list = (req, res, next) => {
 }
 
 module.exports.detail = (req, res, next) => {
-  Shop.findById(req.params.id)
+  Shop.findById(req.params.shopId)
     .then((shop) => res.json(shop))
     .catch(next)
 }
 
 module.exports.create = (req, res, next) => {
   Shop.create(req.body)
-    .then((body) => res.json(body))
+    .then((body) => res.status(201).json(body))
     .catch(next)
 }
 
 module.exports.update = (req, res, next) => {
-  Shop.findByIdAndUpdate(req.params.id, req.body)
+  //Future example: const { name } = req.body
+  //const objetoAlVuelo = { name, location, etc... }
+  console.log('update');
+  Object.assign(req.shop, req.body);
+  req.shop.save()
     .then((shopUpdated) => res.json(shopUpdated))
     .catch(next)
 }
 
 module.exports.delete = (req, res, next) => {
-  Shop.findByIdAndDelete(req.params.id)
+  Shop.findByIdAndDelete(req.params.shopId)
     .then((shopDeleted) => console.log(`Shop deleted: ${shopDeleted}`))
 }
