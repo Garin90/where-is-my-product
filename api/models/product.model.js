@@ -7,13 +7,16 @@ const productSchema = new Schema({
     required: true,
   },
   description: {
-    typer: String,
+    type: String,
   },
   //for chose how to manage the categories
   category: {
     type: String
+  },
+  shop: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Shop'
   }
-  //shop population will be insterted here
 },{timestamps: true})
 
 const Product = mongoose.model('product', productSchema);

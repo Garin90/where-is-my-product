@@ -21,7 +21,6 @@ module.exports.create = (req, res, next) => {
 module.exports.update = (req, res, next) => {
   //Future example: const { name } = req.body
   //const objetoAlVuelo = { name, location, etc... }
-  console.log('update');
   Object.assign(req.shop, req.body);
   req.shop.save()
     .then((shopUpdated) => res.json(shopUpdated))
@@ -29,6 +28,8 @@ module.exports.update = (req, res, next) => {
 }
 
 module.exports.delete = (req, res, next) => {
+  console.log('Succesfully deleted');
   Shop.findByIdAndDelete(req.params.shopId)
-    .then((shopDeleted) => console.log(`Shop deleted: ${shopDeleted}`))
+    .then(() => res.status(204).send())
+    .catch(next);
 }
