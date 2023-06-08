@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Shop = require('../models/shop.model')
 
 module.exports.list = (req, res, next) => {
@@ -31,5 +32,18 @@ module.exports.delete = (req, res, next) => {
   console.log('Succesfully deleted');
   Shop.findByIdAndDelete(req.params.shopId)
     .then(() => res.status(204).send())
+    .catch(next);
+}
+
+module.exports.login = (req, res, next) => {
+  Shop.findOne({ email: req.shop.email})
+    .then((shop) => {
+      bcrypt.compare(req.body.password, shop.password)
+        .then((ok) => {
+          req.session.shopId;
+          next();
+        })
+        .catch(next);
+    })
     .catch(next);
 }

@@ -29,7 +29,26 @@ const shopSchema = new Schema({
 
 //virtual populate of product would go here
 
+shopSchema.pre('save', function (next) {
+  const shop = this;
 
+  if (shop.isModified('password')){
+    bcrypt.genSalt(10)
+      .then((salt) => {
+        return bcrypt.hash(shop.password, salt).then((hash) => {
+          shop.password = hash;
+          next();
+        })
+      .catch(next);
+      })
+  } else {
+    next();
+  }
+})
+
+shopSchema.methods.checkPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+}
 
 const Shop = mongoose.model('shop', shopSchema);
 module.exports = Shop;
