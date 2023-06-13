@@ -18,4 +18,4 @@ const router = require('./configs/routes.config');
 app.use('/api/v1', router);
 
 const port = process.env.PORT;
-app.listen(port, () => console.info(`Application running at port ${port}`));''
+app.listen(port, () => console.info(`Application running at port ${port}`));

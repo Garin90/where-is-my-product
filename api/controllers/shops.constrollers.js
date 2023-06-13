@@ -36,14 +36,25 @@ module.exports.delete = (req, res, next) => {
 }
 
 module.exports.login = (req, res, next) => {
-  Shop.findOne({ email: req.shop.email})
-    .then((shop) => {
-      bcrypt.compare(req.body.password, shop.password)
-        .then((ok) => {
-          req.session.shopId;
-          next();
-        })
-        .catch(next);
+  Shop.findOne({ email: req.body.email})
+  .then((shop) => {
+    return shop.checkPassword(req.body.password)
+      .then((shopFound) => {
+        console.log('shop found', shopFound);
+        if(shopFound){
+          req.session.shopId = shop.id;
+          console.log(req.session);
+          res.status(200).json(shop)
+        } else {
+          res.status(404).json({message: 'Contraseña incorrecta'})
+        }
+      })
     })
     .catch(next);
+}
+
+module.exports.logout = (req, res, next) => {
+  req.session.destroy();
+  req.session = null;
+  res.status(204).send();
 }

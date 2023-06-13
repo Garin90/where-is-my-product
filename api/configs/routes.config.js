@@ -15,6 +15,7 @@ router.put('/shops/:shopId', secureMid.isAuthenticated, shopsMid.exists, shopsCo
 router.delete('/shops/:shopId', secureMid.isAuthenticated, shopsMid.exists, shopsControllers.delete)
 
 router.post('/login', shopsControllers.login)
+router.delete('/logout', shopsControllers.logout)
 
 router.get('/products', productsControllers.list)
 router.get('/products/:productId', productsMid.exists, productsControllers.detail)
